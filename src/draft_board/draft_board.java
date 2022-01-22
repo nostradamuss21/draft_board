@@ -11,19 +11,19 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class draft_board implements ActionListener {
+public class draft_board extends timer implements ActionListener {
 
 // Initial Proclamation of Variables; for Both Inputs & Outputs
 
 // Find a Way to Separate the Topics into Separate Classes
     // Try to Identify Characters Using Object Templates That Produce Instances
-    private JFrame frame;
-    private JPanel panel;
+    public JFrame frame;
+    public JPanel panel;
     // General Layout of Information
-    private JLabel onTheClock_label, round_label, overallPick_label, draftConclusion_label, timeLabel, countdown_label,
-    team1label, team2label, team3label, team4label, team5label, team6label, team7label, team8label, team9label, team10label,
-    team1label_header, team2label_header, team3label_header, team4label_header, team5label_header, team6label_header, team7label_header,
-    team8label_header, team9label_header, team10label_header;
+    public JLabel onTheClock_label, round_label, overallPick_label, draftConclusion_label, team1label, team2label,
+            team3label, team4label, team5label, team6label, team7label, team8label, team9label, team10label, team1label_header,
+            team2label_header, team3label_header, team4label_header, team5label_header, team6label_header, team7label_header,
+            team8label_header, team9label_header, team10label_header;
     private JButton confirmPick_button;
     private int count = 0;
     private int team = 0;
@@ -41,46 +41,9 @@ public class draft_board implements ActionListener {
     private String team8 = "School of Kunard Knocks";
     private String team9 = "Generic Team";
     private String team10 = "One Child Left Behind";
-    // Countdown Timer Variables
-    private JButton startButton;
-    private JButton resetButton;
-    int timeLeft = 90000;
-    int seconds = 30;
-    int minutes = 1;
-    int hours = 0;
-    int milliseconds = 0;
-    String seconds_string = String.format("%02d", seconds);
-    String minutes_string = String.format("%02d", minutes);
-    String hours_string = String.format("%02d", hours);
-    String milliseconds_string = String.format("%03d", milliseconds);
-    boolean started = false;
-    // Player Option Scroller Variables
 
-    Timer timer = new Timer(0, new ActionListener() {
-        private ListSelectionEvent le;
+// Display Settings for Buttons, Labels, Lists, etc
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            timeLeft = timeLeft - 15;
-            hours = (timeLeft / 3600000);
-            minutes = (timeLeft / 60000)%60;
-            seconds = (timeLeft / 1000)%60;
-            milliseconds = (timeLeft)%1000;
-            String seconds_string = String.format("%02d", seconds);
-            String minutes_string = String.format("%02d", minutes);
-            String hours_string = String.format("%02d", hours);
-            String milliseconds_string = String.format("%03d", milliseconds);
-            timeLabel.setText(hours_string + ":" + minutes_string + ":" + seconds_string + ":" + milliseconds_string);
-
-        }
-    });
-
-// Identifying Display [Values] & Describing Visual Representation of Buttons, Labels, Lists, etc
-
-// Create Classes for Stylistically Similar Objects
-    // Identify Unique Characteristics & Add That Info Individually
-        // Best Guess is that the Answer Will be Found Somewhere w/i Topic of [public/private static void]
     public draft_board() {
 
         frame = new JFrame();
@@ -319,44 +282,6 @@ public class draft_board implements ActionListener {
         draftConclusion_label.setOpaque(true);
         draftConclusion_label.setHorizontalAlignment(JTextField.CENTER);
         panel.add(draftConclusion_label);
-
-        timeLabel = new JLabel();
-        timeLabel.setText(hours_string + ":" + minutes_string + ":" + seconds_string + ":" + milliseconds_string);
-        timeLabel.setBounds(20,50,320, 75);
-        timeLabel.setBackground(Color.CYAN);
-        timeLabel.setFont(new Font("Verdana", Font.PLAIN, 35));
-        timeLabel.setBorder(BorderFactory.createBevelBorder(0));
-        timeLabel.setOpaque(true);
-        timeLabel.setHorizontalAlignment(JTextField.CENTER);
-        panel.add(timeLabel);
-
-        startButton = new JButton("Start");
-        startButton.setBounds(20,125,160, 50);
-        startButton.setBackground(Color.LIGHT_GRAY);
-        startButton.setFont(new Font("Ink Free", Font.BOLD, 20));
-        startButton.setBorder(BorderFactory.createBevelBorder(0));
-        startButton.setFocusable(false);
-        startButton.addActionListener(this);
-        panel.add(startButton);
-
-        resetButton = new JButton("Reset");
-        resetButton.setBounds(180,125,160, 50);
-        resetButton.setBackground(Color.LIGHT_GRAY);
-        resetButton.setFont(new Font("Ink Free", Font.BOLD, 20));
-        resetButton.setBorder(BorderFactory.createBevelBorder(0));
-        resetButton.setFocusable(false);
-        resetButton.addActionListener(this);
-        panel.add(resetButton);
-
-        countdown_label = new JLabel("Time on the Clock");
-        countdown_label.setBounds(20,5,320, 45);
-        countdown_label.setBackground(Color.BLUE);
-        countdown_label.setFont(new Font("Ink Free", Font.BOLD, 30));
-        countdown_label.setBorder(BorderFactory.createBevelBorder(0));
-        countdown_label.setOpaque(true);
-        countdown_label.setHorizontalAlignment(JTextField.CENTER);
-        panel.add(countdown_label);
-
     }
 
 // Snake Loop Functionality Logic to Determine Team That's On the Clock
@@ -400,52 +325,9 @@ public class draft_board implements ActionListener {
             }
             select();
         }
-// Countdown Timer Button Functionality Logic
-        else if (e.getSource() == startButton) {
-            if (started == false) {
-                started = true;
-                startButton.setText("STOP");
-                startButton.setBackground(Color.GRAY);
-                start();
-            }
-
-            else {
-                started = false;
-                startButton.setText("START");
-                startButton.setBackground(Color.LIGHT_GRAY);
-                stop();
-            }
-        }
-        else if (e.getSource() == resetButton) {
-            started = true;
-            resetButton.setText("RESET");
-            reset();
-        }
     }
 // Method ActionEvents for Value Determining Team that's Currently On the Clock
     void select() {
         count++;
     }
-
-// Method ActionEvents Attributed to Buttons
-    void start() {
-        timer.start();
-    }
-    void stop() {
-        timer.stop();
-    }
-    void reset() {
-        timer.stop();
-        timeLeft = 90000;
-        milliseconds = 0;
-        seconds = 30;
-        minutes = 1;
-        hours = 0;
-        String seconds_string = String.format("%02d", seconds);
-        String minutes_string = String.format("%02d", minutes);
-        String hours_string = String.format("%02d", hours);
-        String milliseconds_string = String.format("%03d", milliseconds);
-        timeLabel.setText(hours_string + ":" + minutes_string + ":" + seconds_string + ":" + milliseconds_string);
-    }
-
 }

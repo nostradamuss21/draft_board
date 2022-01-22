@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
 
         new draft_board();
-        new player_select();
+        new timer();
 
     }
 }
